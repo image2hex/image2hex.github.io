@@ -1,0 +1,292 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ImageColorPicker from '../components/ImageColorPicker.jsx';
+import { useTranslations } from '../i18n/utils';
+
+const lang = 'en';
+const t = useTranslations(lang);
+const canonicalUrl = 'https://image2hex.github.io/';
+const ogImageUrl = 'https://res.cloudinary.com/dpx6w78bt/image/upload/f_auto/q_auto/v1786342039/Online_Tool_rc1ybr.png';
+---
+
+<Layout lang={lang} title={t.seo.title} description={t.seo.description}>
+  <!-- Inline FAQ Schema JSON-LD for rich SEO snippets -->
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "inLanguage": lang,
+      "mainEntity": t.faq.items.map((item) => ({
+        "@type": "Question",
+        "name": item.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.answer,
+        },
+      })),
+    })}
+  />
+
+  <!-- Inline HowTo Schema JSON-LD for rich How-To snippet eligibility -->
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": t.howTo.heading,
+      "description": t.howTo.subtitle,
+      "inLanguage": lang,
+      "image": ogImageUrl,
+      "step": t.howTo.steps.map((step, idx) => ({
+        "@type": "HowToStep",
+        "position": idx + 1,
+        "name": step.title,
+        "text": step.description,
+        "url": `${canonicalUrl}#workspace`,
+      })),
+    })}
+  />
+
+  <div class="max-w-5xl mx-auto px-3.5 sm:px-4 py-6 sm:py-10 md:py-14 space-y-12 sm:space-y-20">
+    <!-- ─── Hero Section ────────────────────────────────────── -->
+    <section class="text-center space-y-3 sm:space-y-4 max-w-3xl mx-auto">
+      <div
+        class="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-semibold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/80 dark:border-indigo-800/60 shadow-2xs"
+      >
+        <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-indigo-500 dark:bg-indigo-400 animate-pulse"></span>
+        {t.hero.badge}
+      </div>
+
+      <h1
+        class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight px-1"
+      >
+        {t.hero.h1}{' '}
+        <span class="text-indigo-600 dark:text-indigo-400">{t.hero.h1Accent}</span>{' '}
+        {t.hero.h1End}
+      </h1>
+
+      <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
+        {t.hero.subtitle}
+      </p>
+    </section>
+
+    <!-- ─── Core Interactive Workspace (React Island) ──────── -->
+    <section aria-label="Color Picker Tool" class="scroll-mt-6" id="workspace">
+      <ImageColorPicker client:load i18n={t.workspace} />
+    </section>
+
+    <!-- ─── How To Section ──────────────────────────────────── -->
+    <section aria-labelledby="how-it-works-heading" class="space-y-6 sm:space-y-8">
+      <div class="text-center space-y-1.5 sm:space-y-2 max-w-2xl mx-auto">
+        <h2
+          id="how-it-works-heading"
+          class="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight"
+        >
+          {t.howTo.heading}
+        </h2>
+        <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm md:text-base">
+          {t.howTo.subtitle}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-5">
+        {
+          t.howTo.steps.map((step) => (
+            <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 sm:p-6 shadow-xs relative flex flex-col justify-between hover:border-slate-300 dark:hover:border-slate-700 transition-colors">
+              <div class="space-y-2.5 sm:space-y-3">
+                <span class="text-xs font-mono font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-2.5 py-1 rounded-md border border-indigo-100 dark:border-indigo-900">
+                  {step.number}
+                </span>
+                <h3 class="text-sm sm:text-base font-semibold text-slate-900 dark:text-white pt-1">
+                  {step.title}
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                  {step.description}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ─── Features Grid ───────────────────────────────────── -->
+    <section aria-labelledby="features-heading" class="space-y-6 sm:space-y-8">
+      <div class="text-center space-y-1.5 sm:space-y-2 max-w-2xl mx-auto">
+        <h2
+          id="features-heading"
+          class="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight"
+        >
+          {t.features.heading}
+        </h2>
+        <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm md:text-base">
+          {t.features.subtitle}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6">
+        {
+          t.features.list.map((f) => (
+            <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 sm:p-6 shadow-xs hover:border-slate-300 dark:hover:border-slate-700 transition-colors space-y-2.5 sm:space-y-3">
+              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-900 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                {f.icon === 'shield' && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                  </svg>
+                )}
+                {f.icon === 'loupe' && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    <line x1="11" y1="8" x2="11" y2="14" />
+                    <line x1="8" y1="11" x2="14" y2="11" />
+                  </svg>
+                )}
+                {f.icon === 'palette' && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="13.5" cy="6.5" r=".5" fill="currentColor" />
+                    <circle cx="17.5" cy="10.5" r=".5" fill="currentColor" />
+                    <circle cx="8.5" cy="7.5" r=".5" fill="currentColor" />
+                    <circle cx="6.5" cy="12.5" r=".5" fill="currentColor" />
+                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z" />
+                  </svg>
+                )}
+                {f.icon === 'convert' && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m16 3 4 4-4 4" />
+                    <path d="M20 7H4" />
+                    <path d="m8 21-4-4 4-4" />
+                    <path d="M4 17h16" />
+                  </svg>
+                )}
+                {f.icon === 'paste' && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                  </svg>
+                )}
+                {f.icon === 'export' && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                )}
+              </div>
+              <h3 class="text-sm sm:text-base font-semibold text-slate-900 dark:text-white">{f.title}</h3>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{f.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ─── FAQ Section ─────────────────────────────────────── -->
+    <section aria-labelledby="faq-heading" class="space-y-6 sm:space-y-8 max-w-3xl mx-auto">
+      <div class="text-center space-y-1.5 sm:space-y-2">
+        <h2
+          id="faq-heading"
+          class="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight"
+        >
+          {t.faq.heading}
+        </h2>
+        <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm md:text-base">
+          {t.faq.subtitle}
+        </p>
+      </div>
+
+      <div class="space-y-3 sm:space-y-4">
+        {
+          t.faq.items.map((faq) => (
+            <details class="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs p-4 sm:p-5 [&_summary::-webkit-details-marker]:hidden">
+              <summary class="flex items-center justify-between cursor-pointer font-medium text-slate-900 dark:text-slate-100 text-sm sm:text-base list-none select-none">
+                <span class="pr-2">{faq.question}</span>
+                <span class="ml-2 sm:ml-4 transition-transform duration-200 group-open:rotate-180 text-slate-400 dark:text-slate-500 group-open:text-indigo-600 dark:group-open:text-indigo-400 flex-shrink-0">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </span>
+              </summary>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mt-2.5 sm:mt-3 pt-2.5 sm:pt-3 border-t border-slate-100 dark:border-slate-800">
+                {faq.answer}
+              </p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</Layout>

@@ -1,0 +1,310 @@
+---
+import LanguagePicker from '../components/LanguagePicker.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import { defaultLang, type SupportedLanguage } from '../i18n/ui';
+import { useTranslations, getAlternateUrls, getLocalizedPath } from '../i18n/utils';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: SupportedLanguage;
+}
+
+const { lang = defaultLang } = Astro.props;
+const t = useTranslations(lang);
+
+const title = Astro.props.title || t.seo.title;
+const description = Astro.props.description || t.seo.description;
+const keywords = t.seo.keywords;
+
+const currentPath = Astro.url.pathname;
+const siteUrl = 'https://image2hex.github.io';
+const canonicalPath = getLocalizedPath(currentPath, lang);
+const canonicalUrl = `${siteUrl}${canonicalPath}`;
+const alternateUrls = getAlternateUrls(currentPath, siteUrl);
+
+const ogImageUrl = 'https://res.cloudinary.com/dpx6w78bt/image/upload/f_auto/q_auto/v1786342039/Online_Tool_rc1ybr.png';
+
+const homeHref = getLocalizedPath('/', lang);
+const privacyHref = getLocalizedPath('/privacy', lang);
+
+const isPrivacyPage = currentPath.includes('/privacy');
+
+// Breadcrumb Schema
+const breadcrumbItems = isPrivacyPage
+  ? [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": t.header.brand,
+        "item": `${siteUrl}${homeHref}`
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": t.footer.privacyPolicy,
+        "item": canonicalUrl
+      }
+    ]
+  : [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": t.header.brand,
+        "item": canonicalUrl
+      }
+    ];
+
+const localeMap: Record<SupportedLanguage, string> = {
+  en: 'en_US',
+  es: 'es_ES',
+  pt: 'pt_BR',
+  de: 'de_DE',
+  fr: 'fr_FR',
+  ja: 'ja_JP',
+};
+---
+
+<!doctype html>
+<html lang={lang} dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Early Dark Mode Initialization to Prevent FOUC -->
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem('theme');
+          if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch {}
+      })();
+    </script>
+
+    <!-- Primary SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content="Image to HEX" />
+    <meta name="publisher" content="Image to HEX" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Theme & App Metadata -->
+    <meta name="theme-color" content="#4f46e5" />
+    <meta name="application-name" content="Image to HEX" />
+    <meta name="apple-mobile-web-app-title" content="Image to HEX" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Hreflang Alternates for Global Multi-Language SEO -->
+    {
+      alternateUrls.map(({ lang: altLang, url }) => (
+        <link rel="alternate" hreflang={altLang} href={url} />
+      ))
+    }
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="Image to HEX" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:secure_url" content={ogImageUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Image to HEX — Free Color Picker from Image" />
+    <meta property="og:locale" content={localeMap[lang]} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content="Image to HEX — Free Color Picker from Image" />
+
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R9PWWDNG39"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-R9PWWDNG39');
+    </script>
+
+    <!-- Google Fonts — Inter (Preconnected with font-display: swap) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- JSON-LD BreadcrumbList Schema -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": breadcrumbItems
+    })} />
+
+    <!-- JSON-LD WebApplication Schema -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Image to HEX - Color Picker from Image",
+      "alternateName": "Image2HEX",
+      "url": canonicalUrl,
+      "inLanguage": lang,
+      "applicationCategory": "DesignApplication",
+      "applicationSubCategory": "Color Tools & Palette Extraction",
+      "operatingSystem": "All modern web browsers (Chrome, Firefox, Safari, Edge, Opera)",
+      "description": description,
+      "image": ogImageUrl,
+      "screenshot": ogImageUrl,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      },
+      "featureList": [
+        "Pixel-precise magnifying loupe with center crosshair",
+        "Instant HEX, RGB, HSL, CMYK multi-format conversion",
+        "Median-cut dominant harmonic palette generator",
+        "100% client-side zero-server privacy execution",
+        "Clipboard screenshot paste support (Ctrl+V / Cmd+V)",
+        "CSS Variables, JSON, and TXT palette export"
+      ],
+      "author": {
+        "@type": "Organization",
+        "name": "Image to HEX",
+        "url": "https://image2hex.github.io"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Image to HEX",
+        "url": "https://image2hex.github.io",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://image2hex.github.io/favicon.svg"
+        }
+      },
+      "browserRequirements": "Requires JavaScript and HTML5 Canvas support."
+    })} />
+  </head>
+
+  <body
+    class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col transition-colors duration-200"
+  >
+    <!-- ─── Header ──────────────────────────────────────────── -->
+    <header
+      class="border-b border-slate-200 dark:border-slate-800/90 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50 transition-colors duration-200"
+    >
+      <div
+        class="max-w-5xl mx-auto px-3.5 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between gap-2 sm:gap-3"
+      >
+        <!-- Logo / App Name -->
+        <a
+          href={homeHref}
+          class="flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base md:text-lg font-semibold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex-shrink-0"
+        >
+          <!-- Pipette icon -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="text-indigo-600 dark:text-indigo-400 flex-shrink-0"
+          >
+            <path d="m2 22 1-1h3l9-9"></path>
+            <path d="M3 21v-3l9-9"></path>
+            <path
+              d="m15 6 3.4-3.4a2.1 2.1 0 1 1 3 3L18 9l.4.4a2.1 2.1 0 1 1-3 3l-3.8-3.8a2.1 2.1 0 1 1 3-3L15 6"
+            ></path>
+          </svg>
+          <span class="tracking-tight font-bold sm:font-semibold">{t.header.brand}</span>
+        </a>
+
+        <!-- Right Controls: Support Developer, Language Picker & Theme Toggle -->
+        <div class="flex items-center gap-1.5 sm:gap-2">
+          <!-- Support the Developer (Buy Me a Coffee) -->
+          <a
+            href="https://buymeacoffee.com/kisharadilz"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-amber-900 dark:text-amber-200 bg-amber-50 dark:bg-amber-950/40 hover:bg-amber-100/90 dark:hover:bg-amber-900/60 border border-amber-200/90 dark:border-amber-800/80 rounded-lg transition-all shadow-2xs hover:scale-[1.02] active:scale-[0.98] flex-shrink-0"
+            title={t.header.support}
+            aria-label={t.header.support}
+          >
+            <!-- Coffee Cup SVG -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-amber-700 dark:text-amber-400 flex-shrink-0"
+            >
+              <path d="M10 2v2"></path>
+              <path d="M14 2v2"></path>
+              <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h12Z"></path>
+              <path d="M6 2v2"></path>
+              <path d="M17 8h1a4 4 0 0 1 0 8h-1"></path>
+            </svg>
+            <span class="hidden sm:inline">{t.header.support}</span>
+          </a>
+
+          <!-- Language Picker -->
+          <LanguagePicker currentLang={lang} currentPath={currentPath} />
+
+          <!-- Theme Toggle (Dark/Light) -->
+          <ThemeToggle />
+        </div>
+      </div>
+    </header>
+
+    <!-- ─── Main Content ────────────────────────────────────── -->
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <!-- ─── Footer ──────────────────────────────────────────── -->
+    <footer class="border-t border-slate-200 dark:border-slate-800/90 bg-white dark:bg-slate-900/60 transition-colors duration-200">
+      <div
+        class="max-w-5xl mx-auto px-4 py-5 sm:py-6 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs sm:text-sm text-slate-500 dark:text-slate-400 text-center sm:text-left"
+      >
+        <p>
+          &copy; {new Date().getFullYear()} {t.footer.copyright}
+        </p>
+        <a
+          href={privacyHref}
+          class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium"
+        >
+          {t.footer.privacyPolicy}
+        </a>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,129 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations, getLocalizedPath } from '../i18n/utils';
+
+const lang = 'en';
+const t = useTranslations(lang);
+const homeHref = getLocalizedPath('/', lang);
+---
+
+<Layout lang={lang} title={t.privacy.title} description={t.privacy.description}>
+  <div class="max-w-3xl mx-auto px-3.5 sm:px-4 py-8 sm:py-14 space-y-8 sm:space-y-10">
+    <!-- ─── Header ──────────────────────────────────────────── -->
+    <div class="space-y-3 sm:space-y-4">
+      <a
+        href={homeHref}
+        class="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+        {t.privacy.backToTool}
+      </a>
+
+      <div class="space-y-1.5 sm:space-y-2">
+        <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          {t.privacy.heading}
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+          {t.privacy.lastUpdated}
+        </p>
+      </div>
+    </div>
+
+    <!-- ─── Highlight Box ───────────────────────────────────── -->
+    <div
+      class="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/80 rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-start gap-3 sm:gap-4"
+    >
+      <div
+        class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-100/80 dark:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-700 flex items-center justify-center text-emerald-700 dark:text-emerald-300 flex-shrink-0"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+          ></path>
+        </svg>
+      </div>
+      <div class="space-y-1 text-xs sm:text-sm text-emerald-950 dark:text-emerald-200">
+        <h2 class="font-semibold text-sm sm:text-base text-emerald-900 dark:text-emerald-300">{t.privacy.badgeTitle}</h2>
+        <p class="leading-relaxed">
+          {t.privacy.badgeText}
+        </p>
+      </div>
+    </div>
+
+    <!-- ─── Main Policy Content ─────────────────────────────── -->
+    <div class="space-y-6 sm:space-y-8 text-slate-700 dark:text-slate-300 text-xs sm:text-sm md:text-base leading-relaxed">
+      <section class="space-y-2 sm:space-y-3">
+        <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">{t.privacy.s1Title}</h2>
+        <p>{t.privacy.s1P1}</p>
+        <p>{t.privacy.s1P2}</p>
+      </section>
+
+      <section class="space-y-2 sm:space-y-3">
+        <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">{t.privacy.s2Title}</h2>
+        <p>{t.privacy.s2P1}</p>
+      </section>
+
+      <section class="space-y-2 sm:space-y-3">
+        <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">{t.privacy.s3Title}</h2>
+        <p>{t.privacy.s3P1}</p>
+      </section>
+
+      <section class="space-y-2 sm:space-y-3">
+        <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">{t.privacy.s4Title}</h2>
+        <p>{t.privacy.s4P1}</p>
+      </section>
+
+      <section class="space-y-2 sm:space-y-3">
+        <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">{t.privacy.s5Title}</h2>
+        <p>{t.privacy.s5P1}</p>
+        <p>
+          <a
+            href="https://github.com/image2hex/image2hex.github.io"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-indigo-600 dark:text-indigo-400 font-medium hover:underline inline-flex items-center gap-1"
+          >
+            github.com/image2hex/image2hex.github.io
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              <polyline points="15 3 21 3 21 9" />
+              <line x1="10" y1="14" x2="21" y2="3" />
+            </svg>
+          </a>
+        </p>
+      </section>
+    </div>
+  </div>
+</Layout>
