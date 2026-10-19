@@ -31,7 +31,7 @@
 - 🧪 **Programmatic Sample Presets** — Test the tool instantly with 3 built-in Canvas-rendered presets (Sunset, Architecture, Minimalist Gradient) with zero external asset downloads.
 - 👁️ **Native EyeDropper API Support** — 1-click fallback to pick colors anywhere on your operating system display (supported on Chromium browsers).
 - 🌓 **Dark & Light Mode Support** — Responsive theme toggle with automatic system preference detection (`prefers-color-scheme`), local storage persistence, and zero-FOUC initialization.
-- ☕ **Support the Developer** — Integrated responsive Buy Me a Coffee action button with responsive icon-only mobile layout.
+- ☕ **Support the Developer** — Integrated responsive Support Developer ([Ko-fi](https://ko-fi.com/kishara)) action button with responsive icon-only mobile layout.
 - 📜 **Session History & Palette Export** — Maintains a visual swatch list of your picked colors with instant export to **CSS Variables**, **JSON**, or **Plain Text**.
 - 🚀 **100% Technical SEO Suite** — Validated JSON-LD schemas (`WebApplication`, `FAQPage`, `HowTo`, `BreadcrumbList`), Google multi-language XML sitemap with `xhtml:link` alternates, `robots.txt`, and Cloudinary CDN Open Graph social sharing cards.
 
